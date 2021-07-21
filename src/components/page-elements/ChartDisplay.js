@@ -37,7 +37,7 @@ const ChartDisplay = ({ countries }) => {
             },
           },
           dataLabels: {
-            enabled: true,
+            enabled: false,
           },
           xaxis: {
             categories: chartXAxisData,
