@@ -14,7 +14,7 @@ const ContentArea = () => {
         <div className="row">
           <div className="col">
             <Map />
-            <ChartDisplay />
+            <ChartDisplay className="mt-5" />
           </div>
         </div>
       </div>

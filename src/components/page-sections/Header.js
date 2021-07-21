@@ -11,7 +11,7 @@ const Header = () => {
         <div className="row">
           <div className="col d-flex">
             <h1 className="app-title">Country Search</h1>
-            <div className="ms-auto search">
+            <div className="ms-auto search ">
               <SearchCountriesField />
             </div>
           </div>

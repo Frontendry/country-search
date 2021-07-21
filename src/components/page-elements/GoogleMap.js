@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 const mapDefaults = {
-  key: process.env.REACT_APP_GOOGLE_MAPS_API,
+  key: process.env.REACT_APP_GOOGLE_MAPS_API, // Change Google API key here or create an.env file and set here
   options: {
     center: { lat: -1.286389, lng: 36.817223 },
     zoom: 1,
@@ -27,6 +27,7 @@ const GoogleMap = ({ countries }) => {
   if (countries.length) {
     let markersArray = [];
 
+    // Create new google markers based on selected country
     countries.forEach((country) => {
       const marker = new window.google.maps.Marker({
         position: new window.google.maps.LatLng(

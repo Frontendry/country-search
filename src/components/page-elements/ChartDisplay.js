@@ -46,19 +46,26 @@ const ChartDisplay = ({ countries }) => {
       };
 
       return (
-        <Chart
-          options={chartData.options}
-          series={chartData.series}
-          type={"bar"}
-          height={"400"}
-        />
+        <>
+          <h2 className="mb-3">Population Data</h2>
+          <Chart
+            options={chartData.options}
+            series={chartData.series}
+            type={"bar"}
+            height={"400"}
+          />
+        </>
       );
     } else {
       return <p>No chart data available</p>;
     }
   };
 
-  return <div id="chart"> {renderChart()}</div>;
+  return (
+    <div id="chart" className="mt-5">
+      {renderChart()}
+    </div>
+  );
 };
 
 const mapStateToProps = ({ searchedCountries }) => {
