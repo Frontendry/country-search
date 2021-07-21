@@ -28,7 +28,6 @@ const GoogleMap = ({ countries }) => {
     let markersArray = [];
 
     countries.forEach((country) => {
-      console.log(country);
       const marker = new window.google.maps.Marker({
         position: new window.google.maps.LatLng(
           parseFloat(country.latlng[0]),

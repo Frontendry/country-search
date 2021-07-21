@@ -1,0 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.page-header {
+  background: #efefef;
+  z-index: 9;
+}
+.content-section {
+  margin-top: 8rem;
+}

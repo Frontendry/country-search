@@ -9,10 +9,16 @@ import ChartDisplay from "../page-elements/ChartDisplay";
 
 const ContentArea = () => {
   return (
-    <>
-      <Map />
-      <ChartDisplay />
-    </>
+    <div className="content-section mt-6">
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <Map />
+            <ChartDisplay />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
