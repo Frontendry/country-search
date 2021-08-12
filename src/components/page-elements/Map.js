@@ -1,7 +1,7 @@
 // External Import
 import React, { useEffect, useState } from "react";
 
-// Module  to add Google Maps
+// Module  to add Google Maps and Google API Key
 import loadGMaps from "../../scripts/loadGmap";
 
 import GoogleMap from "./GoogleMap";

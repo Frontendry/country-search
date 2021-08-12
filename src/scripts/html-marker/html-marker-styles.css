@@ -1,0 +1,23 @@
+.custom-marker-label-holder {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 0;
+}
+
+.custom-marker-label-icon-wrap {
+  position: relative;
+  width: 30px;
+  margin-right: 0.2rem;
+}
+
+.custom-marker-label-icon {
+  width: 100%;
+  height: auto;
+}
+.custom-marker-label-name {
+  font-weight: bold;
+  color: #2147d2;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

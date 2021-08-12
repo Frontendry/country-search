@@ -1,23 +1,31 @@
 // External Imports
 import React from "react";
+import { Container, Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-// Map Component
-import Map from "../page-elements/Map";
+// Local Imports
+import styles from "../../assets/jss/components/page-sections/contentAreaStyle";
 
-// Data Visualization Component
-import ChartDisplay from "../page-elements/ChartDisplay";
+// Content Area Title
+import ContentAreaTitle from "../page-elements/ContentAreaTitle";
+
+// Tabs Display
+import TabsDisplay from "../page-elements/TabsDisplay";
+
+const useStyles = makeStyles(styles);
 
 const ContentArea = () => {
+  const classes = useStyles();
   return (
-    <div className="content-section mt-6">
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <Map />
-            <ChartDisplay />
-          </div>
-        </div>
-      </div>
+    <div className={classes.root}>
+      <Container>
+        <Grid container>
+          <Grid item>
+            <ContentAreaTitle />
+            <TabsDisplay />
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   );
 };

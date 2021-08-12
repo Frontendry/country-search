@@ -1,49 +1,85 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 
-const mapDefaults = {
-  key: process.env.REACT_APP_GOOGLE_MAPS_API, // Change Google API key here or create an.env file and set here
-  options: {
-    center: { lat: -1.286389, lng: 36.817223 },
-    zoom: 1,
-  },
-  style: {
-    width: "800px",
-    height: "600px",
-  },
-};
+// HTML Marker
+import { createHTMLMapMarker } from "../../scripts/html-marker";
 
 const GoogleMap = ({ countries }) => {
-  const [map, setMap] = useState("");
+  const mapRef = useRef(null);
+  const prevMarkersRef = useRef([]);
+
+  // Add Markers
+  function addMarker(position, title, map, icon, html) {
+    /*  const marker = new window.google.maps.Marker({
+      position: position,
+      title: title,
+      map: map,
+      icon: "https://www.cre8ivedge.net/dev/imbank/ke/wp-content/themes/imbank/assets/imgs/content-images/map-markers.png",
+    }); */
+
+    const marker = createHTMLMapMarker({
+      position: position,
+      title: title,
+      map: map,
+      html: html,
+    });
+
+    prevMarkersRef.current.push(marker);
+
+    return marker;
+  }
+
+  function deleteMarkers(markers) {
+    markers.forEach((marker) => {
+      marker.setMap(null);
+    });
+
+    markers = [];
+  }
+
   useEffect(() => {
     const googleMap = new window.google.maps.Map(
       document.getElementById("map-container"),
-      mapDefaults.options
+      {
+        center: { lat: -1.286389, lng: 36.817223 },
+        zoom: 1,
+        scrollwheel: true,
+      }
     );
+    mapRef.current = googleMap;
+  }, []);
 
-    setMap(googleMap);
-  }, [setMap]);
+  useEffect(() => {
+    // If country(ies) is(are) selected
+    if (countries.length) {
+      // Delete markers before inserting new
+      deleteMarkers(prevMarkersRef.current);
 
-  if (countries.length) {
-    let markersArray = [];
-
-    // Create new google markers based on selected country
-    countries.forEach((country) => {
-      const marker = new window.google.maps.Marker({
-        position: new window.google.maps.LatLng(
-          parseFloat(country.latlng[0]),
-          parseFloat(country.latlng[1])
-        ),
-        title: country.name,
-        icon: "https://www.cre8ivedge.net/dev/imbank/ke/wp-content/themes/imbank/assets/imgs/content-images/map-markers.png",
+      // Create new google markers based on selected country
+      countries.forEach((country) => {
+        addMarker(
+          {
+            lat: parseFloat(country.latlng[0]),
+            lng: parseFloat(country.latlng[1]),
+          },
+          country.name,
+          mapRef.current,
+          null,
+          `<div class="custom-marker-label-holder"><span class="custom-marker-label-icon-wrap"><img class="custom-marker-label-icon" src="${country.flag}"/></span><span class="custom-marker-label-name">${country.name}</span></div>`
+        );
       });
+    }
+  });
 
-      markersArray.push(marker);
-
-      marker.setMap(map);
-    });
-  }
-  return <div style={mapDefaults.style} id="map-container"></div>;
+  return (
+    <div
+      style={{
+        width: "800px",
+        height: "600px",
+      }}
+      id="map-container"
+    ></div>
+  );
 };
 
 const mapStateToProps = ({ searchedCountries }) => {
