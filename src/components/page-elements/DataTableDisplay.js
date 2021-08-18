@@ -1,44 +1,60 @@
 // External Imports
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import { withStyles, makeStyles } from "@material-ui/core/styles";
-import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableSortLabel,
-  Paper,
-} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { TableContainer, Table, Paper } from "@material-ui/core";
 
 // Local Imports
 import styles from "../../assets/jss/components/page-elements/dataTableDisplayStyle";
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
+// Table Head
+import TableHeadDisplay from "./TableHeadDisplay";
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
+// Table Body
+import TableBodyDisplay from "./TableBodyDisplay";
+
+// Helper functions
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
 
 const useStyles = makeStyles(styles);
 
 export const DataTableDisplay = ({ countries }) => {
   const classes = useStyles();
+
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("name");
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
   const renderDataTable = () => {
     if (countries.length) {
       const fields = ["flag", "name", "population", "region"];
@@ -54,32 +70,30 @@ export const DataTableDisplay = ({ countries }) => {
       };
 
       const dataTableColumns = () => {
+        // Table Head Data
         const columnsData = [
           {
             field: fields[0],
             headerName: prettifyText(fields[0]),
-            width: 150,
           },
           {
             field: fields[1],
             headerName: prettifyText(fields[1]),
-            width: 150,
           },
           {
             field: fields[2],
             headerName: prettifyText(fields[2]),
-            width: 150,
           },
           {
             field: fields[3],
             headerName: prettifyText(fields[3]),
-            width: 150,
           },
         ];
 
         return columnsData;
       };
 
+      // Table Body Data
       const dataTableRows = () => {
         const necessaryDataFilter = (arr, selection) => {
           const filteredArr = [];
@@ -98,49 +112,28 @@ export const DataTableDisplay = ({ countries }) => {
 
         const necessaryData = necessaryDataFilter(countries, fields);
 
-        /*    const necessaryDataWithId = necessaryData.map((data, index) => {
-          return { ...data, id: index + 1 };
-        }); */
-
         return necessaryData;
       };
 
       return (
         <>
-          <h2>Population Data</h2>
           <TableContainer component={Paper}>
-            <Table aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  {dataTableColumns().map((dataTableColumn) => {
-                    return (
-                      <StyledTableCell key={dataTableColumn.field}>
-                        {dataTableColumn.headerName}
-                      </StyledTableCell>
-                    );
-                  })}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dataTableRows().map((dataTableRow) => {
-                  return (
-                    <StyledTableRow key={dataTableRow.name}>
-                      <StyledTableCell component="th" scope="row">
-                        <img
-                          className={classes.flagIcon}
-                          src={dataTableRow.flag}
-                          alt={dataTableRow.name}
-                        />
-                      </StyledTableCell>
-                      <StyledTableCell>{dataTableRow.name}</StyledTableCell>
-                      <StyledTableCell>
-                        {dataTableRow.population}
-                      </StyledTableCell>
-                      <StyledTableCell>{dataTableRow.region}</StyledTableCell>
-                    </StyledTableRow>
-                  );
-                })}
-              </TableBody>
+            <Table>
+              <TableHeadDisplay
+                headData={dataTableColumns()}
+                classes={classes}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+              />
+              <TableBodyDisplay
+                bodyData={dataTableRows()}
+                classes={classes}
+                order={order}
+                orderBy={orderBy}
+                stableSort={stableSort}
+                getComparator={getComparator}
+              />
             </Table>
           </TableContainer>
         </>

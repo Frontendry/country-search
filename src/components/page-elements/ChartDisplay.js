@@ -47,7 +47,6 @@ const ChartDisplay = ({ countries }) => {
 
       return (
         <>
-          <h2 className="mb-3">Population Data</h2>
           <Chart
             options={chartData.options}
             series={chartData.series}
