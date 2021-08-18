@@ -74,8 +74,8 @@ const GoogleMap = ({ countries }) => {
   return (
     <div
       style={{
-        width: "800px",
-        height: "600px",
+        width: "100%",
+        height: "400px",
       }}
       id="map-container"
     ></div>

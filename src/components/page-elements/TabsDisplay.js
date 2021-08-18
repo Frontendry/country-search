@@ -15,6 +15,9 @@ import Map from "./Map";
 // Data Visualization Component
 import ChartDisplay from "./ChartDisplay";
 
+// Data Table Component
+import DataTableDisplay from "./DataTableDisplay";
+
 const a11yProps = (index) => {
   return {
     id: `simple-tab-${index}`,
@@ -75,7 +78,7 @@ const TabsDisplay = () => {
         <ChartDisplay />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <DataTableDisplay />
       </TabPanel>
     </>
   );

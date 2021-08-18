@@ -61,11 +61,7 @@ const ChartDisplay = ({ countries }) => {
     }
   };
 
-  return (
-    <div id="chart" className="mt-5">
-      {renderChart()}
-    </div>
-  );
+  return <div id="chart">{renderChart()}</div>;
 };
 
 const mapStateToProps = ({ searchedCountries }) => {

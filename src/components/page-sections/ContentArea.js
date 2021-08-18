@@ -19,8 +19,8 @@ const ContentArea = () => {
   return (
     <div className={classes.root}>
       <Container>
-        <Grid container>
-          <Grid item>
+        <Grid container justifyContent="center">
+          <Grid item sm={8}>
             <ContentAreaTitle />
             <TabsDisplay />
           </Grid>

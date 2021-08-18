@@ -1,8 +1,8 @@
 import { createTheme } from "@material-ui/core/styles";
 
 const styleDefaults = {
-  topSpacing: "90px",
-  sectionSpacing: "50px",
+  topSpacing: 90,
+  sectionSpacing: 50,
 };
 
 const theme = createTheme({
