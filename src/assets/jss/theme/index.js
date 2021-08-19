@@ -16,6 +16,12 @@ const styleDefaults = {
   },
 };
 
+const customColors = {
+  grey: {
+    100: "#f6f8fb",
+  },
+};
+
 const theme = createTheme({
   overrides: {
     MuiCssBaseline: {
@@ -28,6 +34,9 @@ const theme = createTheme({
         html: {
           WebkitFontSmoothing: "auto",
         },
+        body: {
+          backgroundColor: customColors.grey[100],
+        },
       },
     },
   },
@@ -38,7 +47,7 @@ const theme = createTheme({
       dark: "#25262b",
     },
     grey: {
-      100: "#f6f8fb",
+      100: customColors.grey[100],
     },
   },
 });
